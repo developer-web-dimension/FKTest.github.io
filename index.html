@@ -1,343 +1,342 @@
-<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Snoring Detection dev</title>
-        <style>
-            body {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                min-height: 100vh;
-                font-family: 'Arial', sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #e9ecef;
-                color: #333;
-            }
-
-            h1 {
-                margin-bottom: 20px;
-                font-size: 2.5em;
-            }
-
-            h2 {
-                font-size: 1.5em;
-                margin-bottom: 15px;
-                color: #555;
-            }
-
-            .container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 30px;
-                justify-content: center;
-                align-items: flex-start;
-                padding: 20px;
-            }
-
-            .section {
-                background-color: #fff;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                width: 300px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            form {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
-
-            input[type="file"] {
-                margin-bottom: 15px;
-                padding: 10px;
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                width: 100%;
-            }
-
-            button {
-                background-color: #007BFF;
-                color: white;
-                padding: 10px 20px;
-                margin-top: 10px;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 1em;
-                transition: background-color 0.3s ease;
-            }
-
-            button:hover {
-                background-color: #0056b3;
-            }
-
-            button:disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-            }
-
-            #loader {
-                display: none;
-                margin: 20px auto;
-                border: 4px solid #f3f3f3;
-                border-top: 4px solid #007BFF;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                animation: spin 1s linear infinite;
-            }
-            
-
-            audio {
-                margin-top: 10px;
-                width: 100%;
-                border: 1px solid #ddd;
-                border-radius: 8px;
-            }
-
-            pre {
-                background: #f8f9fa;
-                padding: 10px;
-                border-radius: 8px;
-                border: 1px solid #ddd;
-                text-align: left;
-                font-size: xx-large;
-                white-space: pre-wrap;
-                animation: fadeIn 1s;
-                opacity: 1;
-            }
-
-            pre.show {
-                opacity: 1;
-            }
-
-            @keyframes fadeIn {
-                from {
-                    opacity: 0;
+    <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Snoring Detection dev</title>
+            <style>
+                body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 100vh;
+                    font-family: 'Arial', sans-serif;
+                    margin: 0;
+                    padding: 0;
+                    background-color: #e9ecef;
+                    color: #333;
                 }
-                to {
+
+                h1 {
+                    margin-bottom: 20px;
+                    font-size: 2.5em;
+                }
+
+                h2 {
+                    font-size: 1.5em;
+                    margin-bottom: 15px;
+                    color: #555;
+                }
+
+                .container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 30px;
+                    justify-content: center;
+                    align-items: flex-start;
+                    padding: 20px;
+                }
+
+                .section {
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    width: 300px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+                }
+
+                input[type="file"] {
+                    margin-bottom: 15px;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    width: 100%;
+                }
+
+                button {
+                    background-color: #007BFF;
+                    color: white;
+                    padding: 10px 20px;
+                    margin-top: 10px;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 1em;
+                    transition: background-color 0.3s ease;
+                }
+
+                button:hover {
+                    background-color: #0056b3;
+                }
+
+                button:disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                }
+
+                #loader {
+                    display: none;
+                    margin: 20px auto;
+                    border: 4px solid #f3f3f3;
+                    border-top: 4px solid #007BFF;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    animation: spin 1s linear infinite;
+                }
+                
+
+                audio {
+                    margin-top: 10px;
+                    width: 100%;
+                    border: 1px solid #ddd;
+                    border-radius: 8px;
+                }
+
+                pre {
+                    background: #f8f9fa;
+                    padding: 10px;
+                    border-radius: 8px;
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    font-size: xx-large;
+                    white-space: pre-wrap;
+                    animation: fadeIn 1s;
                     opacity: 1;
                 }
-            }
 
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-
-            .popup {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: white;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                border-radius: 8px;
-                padding: 20px;
-                width: 80%;
-                max-width: 500px;
-                z-index: 1000;
-            }
-            .popup-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 10px;
-                font-weight: bold;
-            }
-            .close-btn {
-                background: none;
-                border: none;
-                font-size: 1.5em;
-                font-weight: bold;
-                cursor: pointer;
-                color: #333;
-            }
-            .close-btn:hover {
-                color: red;
-            }
-            .show {
-                display: block;
-            }
-            .hide {
-                display: none;
-            }
-            /* Background overlay */
-            #overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-                display: none;
-            }
-            #overlay.show {
-                display: block;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Snoring Detection</h1>
-        <h3>Note: <span style="font-size: 0.9em; font-weight: normal;">Audio should be between 10 to 30 seconds long for accurate analysis.</span></h3>
-        <div class="container">
-            <div class="section">
-                <h2>Upload Audio</h2>
-                <form method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('loader').style.display='block';">
-                    <input type="file" name="audiofile" accept="audio/*">
-                    <button type="submit">Upload and Analyze</button>
-                </form>
-            </div>
-
-            <div class="section">
-                <h2>Record Audio</h2>
-                <button id="record-btn">Start Recording</button>
-                <button id="stop-btn" disabled>Stop Recording</button>
-                <p>Recording Duration: <span id="recording-timer">00:00</span></p>
-                <audio id="audio-playback" controls></audio>
-                <form id="recording-form" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('loader').style.display='block';">
-                    <input type="hidden" id="audio-data" name="audio_data">
-                    <button type="submit" id="analyze-btn" disabled>Analyze Recording</button>
-                </form>
-            </div>
-        </div>
-        <div id="loader"></div>
-        {% if result %}
-        <div id="popup" class="popup show">
-            <div class="popup-header">
-                <span>Result</span>
-                <button class="close-btn" onclick="closePopup()">×</button>
-            </div>
-            <pre id="result">{{ result }}</pre>
-        </div>
-        {% endif %}
-        <pre id="result" class="hide"></pre>
-        
-        <script>
-            let mediaRecorder;
-            let audioChunks = [];
-            let recordingTimer;
-            let secondsElapsed = 0;
-
-            const recordButton = document.getElementById("record-btn");
-            const stopButton = document.getElementById("stop-btn");
-            const audioPlayback = document.getElementById("audio-playback");
-            const analyzeButton = document.getElementById("analyze-btn");
-            const audioDataInput = document.getElementById("audio-data");
-            const recordingTimerDisplay = document.getElementById("recording-timer");
-
-            recordButton.addEventListener("click", async () => {
-                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    alert("Your browser does not support audio recording.");
-                    return; 
+                pre.show {
+                    opacity: 1;
                 }
 
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
 
-                    const audioContext = new AudioContext();
-                    const source = audioContext.createMediaStreamSource(stream);
-                    const gainNode = audioContext.createGain();
-                    gainNode.gain.value = 2.0; // Amplify audio by 2x (adjust as needed)
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+
+                .popup {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                    border-radius: 8px;
+                    padding: 20px;
+                    width: 80%;
+                    max-width: 500px;
+                    z-index: 1000;
+                }
+                .popup-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    font-weight: bold;
+                }
+                .close-btn {
+                    background: none;
+                    border: none;
+                    font-size: 1.5em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    color: #333;
+                }
+                .close-btn:hover {
+                    color: red;
+                }
+                .show {
+                    display: block;
+                }
+                .hide {
+                    display: none;
+                }
+                /* Background overlay */
+                #overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    z-index: 999;
+                    display: none;
+                }
+                #overlay.show {
+                    display: block;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Snoring Detection</h1>
+            <h3>Note: <span style="font-size: 0.9em; font-weight: normal;">Audio should be between 10 to 30 seconds long for accurate analysis.</span></h3>
+            <div class="container">
+                <div class="section">
+                    <h2>Upload Audio</h2>
+                    <form method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('loader').style.display='block';">
+                        <input type="file" name="audiofile" accept="audio/*">
+                        <button type="submit">Upload and Analyze</button>
+                    </form>
+                </div>
+
+                <div class="section">
+                    <h2>Record Audio</h2>
+                    <button id="record-btn">Start Recording</button>
+                    <button id="stop-btn" disabled>Stop Recording</button>
+                    <p>Recording Duration: <span id="recording-timer">00:00</span></p>
+                    <audio id="audio-playback" controls></audio>
+                    <form id="recording-form" method="POST" enctype="multipart/form-data" onsubmit="document.getElementById('loader').style.display='block';">
+                        <input type="hidden" id="audio-data" name="audio_data">
+                        <button type="submit" id="analyze-btn" disabled>Analyze Recording</button>
+                    </form>
+                </div>
+            </div>
+            <div id="loader"></div>
+            {% if result %}
+            <div id="popup" class="popup show">
+                <div class="popup-header">
+                    <span>Result</span>
+                    <button class="close-btn" onclick="closePopup()">×</button>
+                </div>
+                <pre id="result">{{ result }}</pre>
+            </div>
+            {% endif %}
+            <pre id="result" class="hide"></pre>
             
-                    // Connect the source to the gain node
-                    source.connect(gainNode);
-                    const destination = audioContext.createMediaStreamDestination();
-                    gainNode.connect(destination);
-            
-                    // Use the destination stream for recording
-                    mediaRecorder = new MediaRecorder(destination.stream, {
-                        mimeType: 'audio/mp4'
-                    });
-                    
-                    audioChunks = [];
-                    mediaRecorder.ondataavailable = event => {
-                        audioChunks.push(event.data);
-                    };
+            <script>
+                let mediaRecorder;
+                let audioChunks = [];
+                let recordingTimer;
+                let secondsElapsed = 0;
 
-                    mediaRecorder.onstop = () => {
-                        clearInterval(recordingTimer);
+                const recordButton = document.getElementById("record-btn");
+                const stopButton = document.getElementById("stop-btn");
+                const audioPlayback = document.getElementById("audio-playback");
+                const analyzeButton = document.getElementById("analyze-btn");
+                const audioDataInput = document.getElementById("audio-data");
+                const recordingTimerDisplay = document.getElementById("recording-timer");
+
+                recordButton.addEventListener("click", async () => {
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        alert("Your browser does not support audio recording.");
+                        return; 
+                    }
+
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                         
-                        if (secondsElapsed < 9) {
-                            alert("Recording must be at least 10 seconds long. Please record again.");
+                        mediaRecorder = new MediaRecorder(destination.stream, {
+                            mimeType: 'audio/mp4'
+                        });
+                        
+                        audioChunks = [];
+                        mediaRecorder.ondataavailable = event => {
+                            audioChunks.push(event.data);
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            clearInterval(recordingTimer);
+                            
+                            if (secondsElapsed < 9) {
+                                alert("Recording must be at least 10 seconds long. Please record again.");
+                                resetRecorder();
+                                return;
+                            }
+
+                            const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+                            const audioURL = URL.createObjectURL(audioBlob);
+
+                            // Dynamically create an audio element
+                            const playbackAudio = document.createElement("audio");
+                            playbackAudio.controls = true;
+                            playbackAudio.src = audioURL;
+
+                            // Set volume to 75% (as per your requirement)
+                            playbackAudio.volume = 0.75;
+
+                            // Append the audio element to the body or any container
+                            document.body.appendChild(playbackAudio);
+
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                                audioDataInput.value = reader.result.split(",")[1];
+                            };
+                            reader.readAsDataURL(audioBlob);
+
+                            analyzeButton.disabled = false;
+
                             resetRecorder();
+                        };
+
+                        mediaRecorder.start();
+                        recordButton.disabled = true;
+                        stopButton.disabled = false;
+
+                        // Start timer
+                        recordingTimer = setInterval(() => {
+                            secondsElapsed++;
+                            const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, "0");
+                            const seconds = String(secondsElapsed % 60).padStart(2, "0");
+                            recordingTimerDisplay.textContent = `${minutes}:${seconds}`;
+
+                            if (secondsElapsed >= 31) {
+                                mediaRecorder.stop();
+                                alert("Recording stopped automatically after 30 seconds.");
+                            }
+                        }, 1000);
+                    } catch (error) {
+                        console.error("Error accessing microphone:", error);
+                        alert("Error accessing your microphone. Please ensure it is enabled.", error);
+                    }
+                });
+
+                stopButton.addEventListener("click", () => {
+                    if (mediaRecorder && mediaRecorder.state === "recording") {
+                    if (secondsElapsed < 10) {
+                            alert("Recording must be at least 10 seconds long. Please continue recording.");
                             return;
                         }
-
-                        const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-                        const audioURL = URL.createObjectURL(audioBlob);
-                        audioPlayback.src = audioURL;
-
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            audioDataInput.value = reader.result.split(",")[1];
-                        };
-                        reader.readAsDataURL(audioBlob);
-
-                        analyzeButton.disabled = false;
-
-                        resetRecorder();
-                    };
-
-                    mediaRecorder.start();
-                    recordButton.disabled = true;
-                    stopButton.disabled = false;
-
-                    // Start timer
-                    recordingTimer = setInterval(() => {
-                        secondsElapsed++;
-                        const minutes = String(Math.floor(secondsElapsed / 60)).padStart(2, "0");
-                        const seconds = String(secondsElapsed % 60).padStart(2, "0");
-                        recordingTimerDisplay.textContent = `${minutes}:${seconds}`;
-
-                        if (secondsElapsed >= 31) {
-                            mediaRecorder.stop();
-                            alert("Recording stopped automatically after 30 seconds.");
-                        }
-                    }, 1000);
-                } catch (error) {
-                    console.error("Error accessing microphone:", error);
-                    alert("Error accessing your microphone. Please ensure it is enabled.", error);
-                }
-            });
-
-            stopButton.addEventListener("click", () => {
-                if (mediaRecorder && mediaRecorder.state === "recording") {
-                   if (secondsElapsed < 10) {
-                        alert("Recording must be at least 10 seconds long. Please continue recording.");
-                        return;
+                        mediaRecorder.stop();
                     }
-                    mediaRecorder.stop();
+                });
+
+                function resetRecorder() {
+                    secondsElapsed = 0;
+                    recordingTimerDisplay.textContent = "00:00";
+                    recordButton.disabled = false;
+                    stopButton.disabled = true;
                 }
-            });
+                function closePopup() {
+                    document.getElementById('popup').classList.add('hide');
+                    document.getElementById('popup').classList.remove('show');
+                    document.getElementById('overlay').classList.remove('show');
+                }
 
-            function resetRecorder() {
-                secondsElapsed = 0;
-                recordingTimerDisplay.textContent = "00:00";
-                recordButton.disabled = false;
-                stopButton.disabled = true;
-            }
-            function closePopup() {
-                document.getElementById('popup').classList.add('hide');
-                document.getElementById('popup').classList.remove('show');
-                document.getElementById('overlay').classList.remove('show');
-            }
-
-        </script>
-        <div id="overlay" class="{% if result %}show{% else %}hide{% endif %}"></div>
-    </body>
-    </html>
+            </script>
+            <div id="overlay" class="{% if result %}show{% else %}hide{% endif %}"></div>
+        </body>
+        </html>
