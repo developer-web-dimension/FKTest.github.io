@@ -249,10 +249,22 @@
 
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(stream, {
+
+                    const audioContext = new AudioContext();
+                    const source = audioContext.createMediaStreamSource(stream);
+                    const gainNode = audioContext.createGain();
+                    gainNode.gain.value = 2.0; // Amplify audio by 2x (adjust as needed)
+            
+                    // Connect the source to the gain node
+                    source.connect(gainNode);
+                    const destination = audioContext.createMediaStreamDestination();
+                    gainNode.connect(destination);
+            
+                    // Use the destination stream for recording
+                    mediaRecorder = new MediaRecorder(destination.stream, {
                         mimeType: 'audio/mp4'
                     });
-
+                    
                     audioChunks = [];
                     mediaRecorder.ondataavailable = event => {
                         audioChunks.push(event.data);
@@ -313,8 +325,6 @@
                     mediaRecorder.stop();
                 }
             });
-
-            
 
             function resetRecorder() {
                 secondsElapsed = 0;
