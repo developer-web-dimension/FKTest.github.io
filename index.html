@@ -250,7 +250,7 @@
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     mediaRecorder = new MediaRecorder(stream, {
-                        mimeType: 'audio/m4a'
+                        mimeType: 'audio/mp4'
                     });
 
                     audioChunks = [];
